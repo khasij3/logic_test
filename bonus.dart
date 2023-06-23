@@ -1,46 +1,60 @@
-class Bonus {
-  List<int> fibonacciList(int maxNum) {
-    List<int> nums = [];
+void main() async {
+  int fibonancciEnd = 20;
+  List<int> fibonancci = getFibonacciList(fibonancciEnd);
+  print(fibonancci);
 
-    for (var i = 0; i < maxNum; i++) {
-      nums.add(fibonacci(i));
+  int primeStart = 2;
+  int primeEnd = 12;
+  print(getPrimes(primeStart, primeEnd));
+
+  List<int> nums = [5, 3, 1, 7];
+  List<int> contains = [1, 2, 3, 4];
+  List<int> numsInContains = getNumsInContains(nums, contains);
+  print(numsInContains);
+}
+
+int getFibonacci(int num) {
+  if (num <= 1) return num;
+  return getFibonacci(num - 1) + getFibonacci(num - 2);
+}
+
+List<int> getFibonacciList(int end) {
+  List<int> nums = [];
+  for (var i = 0; i < end; i++) {
+    nums.add(getFibonacci(i));
+  }
+  return nums;
+}
+
+List<int> getPrimes(int start, int end) {
+  List<int> primes = [];
+  int number = start;
+
+  if (start <= 1) number = 2;
+
+  while (primes.length < end) {
+    bool isPrime = true;
+    // Check if the number is prime
+    if (number <= 1) isPrime = false;
+    for (var i = 2; i * i <= number; i++) {
+      if (number % i == 0) isPrime = false;
     }
 
-    return nums;
+    if (isPrime) primes.add(number);
+    number++;
   }
+  return primes;
+}
 
-  int fibonacci(int n) {
-    if (n <= 1) return n;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-  }
-
-  List<int> primeNums(int n, int current, List<int> primes) {
-    List<int> newPrimes = primes;
-    if (current <= 1) {}
-    // Check if current is prime then add to primes array
-    for (var i = 0; i < primes.length; i++) {
-      if (current % primes[i] == 0) {
-        break;
-      } else if (i == primes.length) {
-        newPrimes.add(current);
+List<int> getNumsInContains(List<int> nums1, List<int> nums2) {
+  List<int> filterNums = [];
+  for (var i = 0; i < nums2.length; i++) {
+    for (var y = 0; y < nums1.length; y++) {
+      // Check if both numbers is equal
+      if (nums1[y] == nums2[i]) {
+        filterNums.add(nums1[y]);
       }
     }
-    // Return the result when end loop
-    if (current == n) {
-      return newPrimes;
-    }
-    return primeNums(current + 1, n, newPrimes);
   }
-
-  List<int> numsInContains(List<int> nums1, List<int> nums2) {
-    List<int> filterNums = [];
-    for (var i = 0; i < nums2.length; i++) {
-      for (var y = 0; y < nums1.length; i++) {
-        if (nums1[y] == nums2[i]) {
-          filterNums.add(nums1[y]);
-        }
-      }
-    }
-    return filterNums;
-  }
+  return filterNums;
 }
